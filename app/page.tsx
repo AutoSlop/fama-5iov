@@ -171,7 +171,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="#precios"
+                href="/registro"
                 className="inline-flex items-center justify-center px-7 py-3.5 rounded-xl bg-accent text-bg-primary font-semibold text-base hover:bg-accent-hover transition-colors glow-accent"
               >
                 Empezar prueba gratis
@@ -352,7 +352,7 @@ export default function Home() {
           </ul>
 
           <a
-            href="#"
+            href="/registro"
             className="block w-full py-3.5 rounded-xl bg-accent text-bg-primary font-semibold text-base hover:bg-accent-hover transition-colors"
           >
             Empezar prueba gratis
@@ -383,7 +383,7 @@ export default function Home() {
             12 meses.
           </p>
           <a
-            href="#precios"
+            href="/registro"
             className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-accent text-bg-primary font-semibold text-lg hover:bg-accent-hover transition-colors glow-accent"
           >
             Empezar prueba gratis

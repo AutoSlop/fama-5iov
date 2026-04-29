@@ -41,13 +41,21 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop CTA */}
-        <a
-          href="#precios"
-          className="hidden md:inline-flex items-center px-5 py-2 rounded-lg bg-accent text-bg-primary text-sm font-semibold hover:bg-accent-hover transition-colors"
-        >
-          Empezar gratis
-        </a>
+        {/* Desktop auth links */}
+        <div className="hidden md:flex items-center gap-3">
+          <a
+            href="/login"
+            className="text-sm text-text-secondary hover:text-accent transition-colors"
+          >
+            Iniciar sesión
+          </a>
+          <a
+            href="/registro"
+            className="inline-flex items-center px-5 py-2 rounded-lg bg-accent text-bg-primary text-sm font-semibold hover:bg-accent-hover transition-colors"
+          >
+            Empezar gratis
+          </a>
+        </div>
 
         {/* Mobile menu button */}
         <button
@@ -97,7 +105,16 @@ export default function Navbar() {
             ))}
             <li>
               <a
-                href="#precios"
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="block text-sm text-text-secondary hover:text-accent transition-colors py-2"
+              >
+                Iniciar sesión
+              </a>
+            </li>
+            <li>
+              <a
+                href="/registro"
                 onClick={() => setMobileOpen(false)}
                 className="block w-full text-center px-5 py-2.5 rounded-lg bg-accent text-bg-primary text-sm font-semibold hover:bg-accent-hover transition-colors"
               >
