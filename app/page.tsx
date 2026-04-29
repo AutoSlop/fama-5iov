@@ -1,6 +1,7 @@
 import Navbar from "./components/Navbar";
 import DashboardMock from "./components/DashboardMock";
 import FAQAccordion from "./components/FAQAccordion";
+import { createClient } from "./lib/supabase/server";
 
 /* ─── Icon helpers ─── */
 function IconChat() {
@@ -84,7 +85,10 @@ function SectionSubtitle({ children }: { children: React.ReactNode }) {
 }
 
 /* ─── PAGE ─── */
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const isAuthenticated = !!user;
   const features = [
     {
       icon: <IconChat />,
@@ -170,12 +174,29 @@ export default function Home() {
               entre liquidez y deuda con claridad, en español y pensado para Colombia.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="/registro"
-                className="inline-flex items-center justify-center px-7 py-3.5 rounded-xl bg-accent text-bg-primary font-semibold text-base hover:bg-accent-hover transition-colors glow-accent"
-              >
-                Empezar prueba gratis
-              </a>
+              {isAuthenticated ? (
+                <a
+                  href="/app"
+                  className="inline-flex items-center justify-center px-7 py-3.5 rounded-xl bg-accent text-bg-primary font-semibold text-base hover:bg-accent-hover transition-colors glow-accent"
+                >
+                  Ir a mi espacio
+                </a>
+              ) : (
+                <>
+                  <a
+                    href="/registro"
+                    className="inline-flex items-center justify-center px-7 py-3.5 rounded-xl bg-accent text-bg-primary font-semibold text-base hover:bg-accent-hover transition-colors glow-accent"
+                  >
+                    Crear cuenta
+                  </a>
+                  <a
+                    href="/login"
+                    className="inline-flex items-center justify-center px-7 py-3.5 rounded-xl border border-border text-text-secondary font-semibold text-base hover:border-accent/40 hover:text-accent transition-colors"
+                  >
+                    Iniciar sesión
+                  </a>
+                </>
+              )}
               <a
                 href="#como-funciona"
                 className="inline-flex items-center justify-center px-7 py-3.5 rounded-xl border border-border text-text-secondary font-semibold text-base hover:border-accent/40 hover:text-accent transition-colors"
@@ -382,12 +403,21 @@ export default function Home() {
             Empezá gratis, sin tarjeta de crédito. Descubrí qué pasa con tu dinero en los próximos
             12 meses.
           </p>
-          <a
-            href="/registro"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-accent text-bg-primary font-semibold text-lg hover:bg-accent-hover transition-colors glow-accent"
-          >
-            Empezar prueba gratis
-          </a>
+          {isAuthenticated ? (
+            <a
+              href="/app"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-accent text-bg-primary font-semibold text-lg hover:bg-accent-hover transition-colors glow-accent"
+            >
+              Ir a mi espacio
+            </a>
+          ) : (
+            <a
+              href="/registro"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-accent text-bg-primary font-semibold text-lg hover:bg-accent-hover transition-colors glow-accent"
+            >
+              Crear cuenta gratis
+            </a>
+          )}
         </div>
       </Section>
 

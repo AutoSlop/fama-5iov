@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "../lib/supabase/client";
 
 const navLinks = [
   { label: "Producto", href: "#producto" },
@@ -11,6 +12,14 @@ const navLinks = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setIsAuthenticated(!!user);
+    });
+  }, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-bg-primary/80 backdrop-blur-xl border-b border-border">
@@ -43,18 +52,29 @@ export default function Navbar() {
 
         {/* Desktop auth links */}
         <div className="hidden md:flex items-center gap-3">
-          <a
-            href="/login"
-            className="text-sm text-text-secondary hover:text-accent transition-colors"
-          >
-            Iniciar sesión
-          </a>
-          <a
-            href="/registro"
-            className="inline-flex items-center px-5 py-2 rounded-lg bg-accent text-bg-primary text-sm font-semibold hover:bg-accent-hover transition-colors"
-          >
-            Empezar gratis
-          </a>
+          {isAuthenticated ? (
+            <a
+              href="/app"
+              className="inline-flex items-center px-5 py-2 rounded-lg bg-accent text-bg-primary text-sm font-semibold hover:bg-accent-hover transition-colors"
+            >
+              Ir a mi espacio
+            </a>
+          ) : (
+            <>
+              <a
+                href="/login"
+                className="text-sm text-text-secondary hover:text-accent transition-colors"
+              >
+                Iniciar sesión
+              </a>
+              <a
+                href="/registro"
+                className="inline-flex items-center px-5 py-2 rounded-lg bg-accent text-bg-primary text-sm font-semibold hover:bg-accent-hover transition-colors"
+              >
+                Crear cuenta
+              </a>
+            </>
+          )}
         </div>
 
         {/* Mobile menu button */}
@@ -103,24 +123,38 @@ export default function Navbar() {
                 </a>
               </li>
             ))}
-            <li>
-              <a
-                href="/login"
-                onClick={() => setMobileOpen(false)}
-                className="block text-sm text-text-secondary hover:text-accent transition-colors py-2"
-              >
-                Iniciar sesión
-              </a>
-            </li>
-            <li>
-              <a
-                href="/registro"
-                onClick={() => setMobileOpen(false)}
-                className="block w-full text-center px-5 py-2.5 rounded-lg bg-accent text-bg-primary text-sm font-semibold hover:bg-accent-hover transition-colors"
-              >
-                Empezar gratis
-              </a>
-            </li>
+            {isAuthenticated ? (
+              <li>
+                <a
+                  href="/app"
+                  onClick={() => setMobileOpen(false)}
+                  className="block w-full text-center px-5 py-2.5 rounded-lg bg-accent text-bg-primary text-sm font-semibold hover:bg-accent-hover transition-colors"
+                >
+                  Ir a mi espacio
+                </a>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <a
+                    href="/login"
+                    onClick={() => setMobileOpen(false)}
+                    className="block text-sm text-text-secondary hover:text-accent transition-colors py-2"
+                  >
+                    Iniciar sesión
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/registro"
+                    onClick={() => setMobileOpen(false)}
+                    className="block w-full text-center px-5 py-2.5 rounded-lg bg-accent text-bg-primary text-sm font-semibold hover:bg-accent-hover transition-colors"
+                  >
+                    Crear cuenta
+                  </a>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       )}
