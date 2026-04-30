@@ -12,6 +12,17 @@ export default async function AppPage() {
     redirect("/login");
   }
 
+  // Check onboarding status
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("onboarding_completed_at")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile || !profile.onboarding_completed_at) {
+    redirect("/app/onboarding");
+  }
+
   return (
     <div className="min-h-screen">
       {/* App header */}
